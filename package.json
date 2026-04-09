@@ -6,11 +6,9 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"lint": "eslint .",
-		"preview": "vite preview",
+		"lint": "eslint . --fix",
 		"format": "prettier . --write --config ./.prettierrc",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"storybook": "storybook dev -p 6006"
 	},
 	"dependencies": {
 		"classnames": "^2.5.1",

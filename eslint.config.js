@@ -1,4 +1,3 @@
-// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
 import js from "@eslint/js";
 import reactDom from "eslint-plugin-react-dom";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -25,9 +24,12 @@ export default defineConfig([
 			ecmaVersion: 2020,
 			globals: globals.browser,
 			parserOptions: {
-				project: ["./tsconfig.node.json", "./tsconfig.app.json"],
+				project: ["./tsconfig.json"],
 				tsconfigRootDir: import.meta.dirname,
 			},
+		},
+		rules: {
+			eqeqeq: ["error", "smart"],
 		},
 	},
 	...storybook.configs["flat/recommended"],
