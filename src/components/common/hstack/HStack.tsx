@@ -9,14 +9,16 @@ export interface HStackProps {
 	children?: ReactNode;
 }
 
-export function HStack({ align, gap = 0, className, children }: HStackProps) {
+export function HStack({ align, gap, className, children }: HStackProps) {
+	const computedGap =
+		gap == null ? undefined : `calc(0.5em * ${gap.toString()})`;
 	const alignItems =
 		align === "top" ? "start" : align === "bottom" ? "end" : "center";
 
 	return (
 		<div
 			style={{
-				gap: `calc(2em * ${gap.toString()})`,
+				gap: computedGap,
 				alignItems,
 			}}
 			className={cx(styles.container, className)}
