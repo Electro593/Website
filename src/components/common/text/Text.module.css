@@ -1,0 +1,12 @@
+.neutralColor {
+	color: var(--color-neutral);
+}
+
+.linkColor {
+	color: var(--color-link);
+}
+
+.linkVariant {
+	text-decoration: underline;
+	cursor: pointer;
+}
