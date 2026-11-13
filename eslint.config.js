@@ -1,36 +1,37 @@
-import js from "@eslint/js";
-import reactDom from "eslint-plugin-react-dom";
-import reactHooks from "eslint-plugin-react-hooks";
-import reactRefresh from "eslint-plugin-react-refresh";
-import reactX from "eslint-plugin-react-x";
-import storybook from "eslint-plugin-storybook";
-import { defineConfig, globalIgnores } from "eslint/config";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import prettier from 'eslint-config-prettier';
+import path from 'node:path';
+import js from '@eslint/js';
+import svelte from 'eslint-plugin-svelte';
+import { defineConfig, includeIgnoreFile } from 'eslint/config';
+import globals from 'globals';
+import ts from 'typescript-eslint';
 
-export default defineConfig([
-	globalIgnores(["dist"]),
+const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
+
+export default defineConfig(
+	includeIgnoreFile(gitignorePath),
+	js.configs.recommended,
+	ts.configs.recommended,
+	svelte.configs.recommended,
+	prettier,
+	svelte.configs.prettier,
 	{
-		files: ["**/*.{ts,tsx}"],
-		extends: [
-			js.configs.recommended,
-			tseslint.configs.strictTypeChecked,
-			reactHooks.configs.flat.recommended,
-			reactRefresh.configs.vite,
-			reactX.configs["recommended-typescript"],
-			reactDom.configs.recommended,
-		],
-		languageOptions: {
-			ecmaVersion: 2020,
-			globals: globals.browser,
-			parserOptions: {
-				project: ["./tsconfig.json"],
-				tsconfigRootDir: import.meta.dirname,
-			},
-		},
-		rules: {
-			eqeqeq: ["error", "smart"],
-		},
+		languageOptions: { globals: { ...globals.browser, ...globals.node } },
+		rules: {'no-undef': 'off'}
 	},
-	...storybook.configs["flat/recommended"],
-]);
+	{
+		files: ['**/*.svelte', '**/*.svelte.ts', '**/*.svelte.js'],
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				extraFileExtensions: ['.svelte'],
+				parser: ts.parser
+			}
+		}
+	},
+	{
+		// Override or add rule settings here, such as:
+		// 'svelte/button-has-type': 'error'
+		rules: {}
+	}
+);

@@ -1,7 +1,17 @@
 {
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.prettier": "explicit",
+        "source.fixAll.stylelint": "explicit",
+        "source.fixAll.ts": "explicit"
+    },
+    "editor.insertSpaces": false,
 	"editor.tabSize": 4,
 	"editor.formatOnSave": true,
 	"editor.detectIndentation": false,
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
-	"eslint.format.enable": true
+	"eslint.format.enable": true,
+	"stylelint.validate": ["css", "svelte"],
+	"js/ts.preferences.autoImportFileExcludePatterns": ["**/*.stories.svelte"],
+	"js/ts.tsdk.path": "node_modules/typescript/lib"
 }

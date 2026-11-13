@@ -1,4 +1,6 @@
-node_modules/
-dist/
+/.svelte-kit/
+/dist/
+/node_modules/
 
-*.log
+/src/
+/src-old/
