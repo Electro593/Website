@@ -1,0 +1,5 @@
+minimumReleaseAgeExclude:
+  - postcss@8.5.33
+onlyBuiltDependencies:
+  - sharp
+  - esbuild

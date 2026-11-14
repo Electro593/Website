@@ -21,15 +21,46 @@
 </div>
 
 <style>
-	:global(*) {
+	/* Theme */
+
+	:where(:global(*)) {
 		box-sizing: border-box;
-		color: black;
+		padding: 0;
+		margin: 0;
+		user-select: none;
+	}
+
+	:where(.frame :global(button)) {
+		all: unset;
+		cursor: pointer;
+		outline: revert;
+	}
+
+	:where(.frame :global(nav a)) {
+		color: inherit;
 		text-decoration: none;
 	}
+
+	:where(.frame :global(.bubble)) {
+		padding: 0.5em;
+		background-color: color-mix(in srgb, black 20%, transparent);
+		border: solid 0.325em blue;
+		border-radius: 1em;
+	}
+
+	:where(.frame :global(.anchor)) {
+		position: absolute;
+		inset: 0;
+		width: max-content;
+		height: max-content;
+	}
+
+	/* Page border */
 
 	.frame {
 		position: absolute;
 		inset: 0;
+		color: white;
 		background-color: gray;
 	}
 
@@ -37,19 +68,47 @@
 		--color-background: #3f3f8d;
 
 		position: absolute;
-		inset: 1px;
+		inset: 2px;
 		display: flex;
-		container-type: inline-size;
+		container-type: size;
 		background-color: black;
 	}
+
+	:where(.scissor) {
+		--aspect-ratio: calc(16 / 9);
+	}
+
+	/* @media (aspect-ratio >= calc((16 / 9 + 4 / 3) / 2)) {
+		.scissor {
+			--aspect-ratio: calc(16 / 9);
+		}
+	}
+
+	@media (aspect-ratio < calc((16 / 9 + 4 / 3) / 2)) {
+		.scissor {
+			--aspect-ratio: calc(4 / 3);
+		}
+	}
+
+	@media (aspect-ratio < calc((4 / 3 + 3 / 4) / 2)) {
+		.scissor {
+			--aspect-ratio: calc(3 / 4);
+		}
+	}
+
+	@media (aspect-ratio < calc((3 / 4 + 9 / 16) / 2)) {
+		.scissor {
+			--aspect-ratio: calc(9 / 16);
+		}
+	} */
 
 	.scissor {
 		display: flex;
 		width: 100cqw;
-		max-width: calc(16 / 9 * 100cqh);
-		height: calc(9 / 16 * 100cqw);
+		max-width: calc(var(--aspect-ratio) * 100cqh);
+		height: calc(1 / var(--aspect-ratio) * 100cqw);
 		max-height: 100cqh;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: var(--aspect-ratio);
 		margin: auto;
 		container-type: inline-size;
 		overflow: hidden;
@@ -59,14 +118,8 @@
 		position: relative;
 		width: 100%;
 		height: 100%;
-		font-size: 1cqi;
+		container-type: inline-size;
+		font-size: calc((1cqi + 1rem) / 2);
 		background-color: var(--color-background);
-	}
-
-	.content > :global(*) {
-		position: absolute;
-		inset: 0;
-		width: max-content;
-		height: max-content;
 	}
 </style>
