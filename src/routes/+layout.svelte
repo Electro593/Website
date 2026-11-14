@@ -36,6 +36,10 @@
 		outline: revert;
 	}
 
+	:where(.frame :global(a)) {
+		color: #0c0;
+	}
+
 	:where(.frame :global(nav a)) {
 		color: inherit;
 		text-decoration: none;
@@ -53,6 +57,11 @@
 		inset: 0;
 		width: max-content;
 		height: max-content;
+	}
+
+	:where(.frame :global(.selectable)),
+	:where(.frame :global(.selectable *)) {
+		user-select: text;
 	}
 
 	/* Page border */

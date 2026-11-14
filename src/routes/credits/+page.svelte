@@ -3,46 +3,48 @@
 	import { resolve } from "$app/paths";
 </script>
 
+<svelte:head>
+	<title>Credits | Electro_593</title>
+</svelte:head>
+
 <main class="anchor bubble">
 	<h1>Credits</h1>
 
 	<div class="overview">
 		<address>
-			<ul>
+			<ul class="selectable">
 				<li>
-					<p>Lead Developer</p>
-					<p>Aria Seiler (Electro_593)</p>
+					<span class="heading">Lead Developer<span>:</span></span>
+					<span>Aria Seiler (Electro_593)</span>
 				</li>
 				<li>
-					<p>Marketing & Outreach</p>
+					<span class="heading">Player Support<span>:</span></span>
+					<a href="mailto:electro5939@gmail.com">electro5939@gmail.com</a>
+				</li>
+				<li>
+					<span class="heading">Marketing & Outreach<span>:</span></span>
 					<a href="https://www.linkedin.com/in/aria-seiler/"
-						>https://www.linkedin.com/in/aria-seiler/</a
+						>linkedin.com/in/aria-seiler</a
 					>
 				</li>
 				<li>
-					<p>Player Support</p>
-					<a href="mailto:electro5939@gmail.com">mailto:electro5939@gmail.com</a
-					>
+					<span class="heading">Engine & Infrastructure<span>:</span></span>
+					<a href="https://github.com/Electro593">github.com/Electro593</a>
 				</li>
 				<li>
-					<p>Engine & Infrastructure</p>
-					<a href="https://github.com/Electro593"
-						>https://github.com/Electro593</a
-					>
-				</li>
-				<li>
-					<p>Publisher</p>
-					<a href="https://www.electro593.dev">https://www.electro593.dev</a>
+					<span class="heading">Publisher<span>:</span></span>
+					<a href="https://www.electro593.dev">electro593.dev</a>
 				</li>
 			</ul>
 		</address>
 
 		<figure>
-			<enhanced:img alt="Me" decoding="sync" src={portrait} />
+			<enhanced:img alt="Me" class="img" decoding="sync" src={portrait} />
 		</figure>
 	</div>
 
-	<section>
+	<section class="introduction">
+		<h2 class="heading">To the Community</h2>
 		<p>
 			Hello! I'm Aria Seiler, or Electro_593 online. I like making software by
 			hand (even still, in the age of AI!). Taking inspiration from renowned
@@ -59,22 +61,27 @@
 </footer>
 
 <style>
+	.heading {
+		color: #aaa;
+		text-transform: uppercase;
+	}
+
 	main {
 		inset: 2em 8em 8em;
 		display: flex;
 		flex-direction: column;
-		gap: 2em;
+		gap: 4em;
 		width: auto;
 		height: auto;
+		text-align: center;
 
 		& > h1 {
 			font-size: 4em;
-			text-align: center;
 		}
 
-		.overview {
+		& > .overview {
 			display: flex;
-			height: 10em;
+			height: 13em;
 			margin: 0 2em;
 
 			& > address {
@@ -83,13 +90,25 @@
 				& > ul {
 					display: flex;
 					flex-flow: column wrap;
-					gap: 1em;
-					text-align: center;
-					user-select: text;
+					gap: 2em;
+					height: 100%;
 					list-style: none;
 
 					& > li {
 						display: block;
+
+						& > *:first-child {
+							display: block;
+							margin-bottom: 0.25em;
+
+							& > span {
+								display: none;
+							}
+						}
+
+						& > *:last-child {
+							font-style: normal;
+						}
 					}
 				}
 			}
@@ -97,9 +116,19 @@
 			& > figure {
 				flex: 1;
 
-				& > img {
-					height: 10em;
+				& > .img {
+					height: 100%;
 				}
+			}
+		}
+
+		& > .introduction {
+			& > h2 {
+				margin-bottom: 0.5em;
+			}
+
+			& > p {
+				padding: 0 8em;
 			}
 		}
 	}
@@ -107,8 +136,10 @@
 	footer {
 		margin: auto auto 2em;
 
-		& > nav > a {
-			font-size: 2.75em;
+		& > nav {
+			& > a {
+				font-size: 2.75em;
+			}
 		}
 	}
 </style>
