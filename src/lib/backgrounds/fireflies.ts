@@ -1,7 +1,7 @@
 import { curlVector } from "#lib/noise.ts";
 import type { Background } from ".";
 
-export class Fireflies implements Background {
+export class Fireflies implements Background<CanvasRenderingContext2D> {
 	static readonly curlDim = 250;
 
 	static readonly forceOut = [0, 0];
@@ -22,6 +22,20 @@ export class Fireflies implements Background {
 	static trailsReady = 4;
 	static trailShift = 0;
 	static offset = 0;
+	static dpr = 1;
+
+	backgroundColor(): string {
+		return "#5f8f7d";
+	}
+
+	init(canvas: HTMLCanvasElement): CanvasRenderingContext2D | null {
+		return canvas.getContext("2d");
+	}
+
+	resize(ctx: CanvasRenderingContext2D, dpr: number) {
+		ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+		Fireflies.dpr = dpr;
+	}
 
 	simulate(s: number) {
 		const shift = Fireflies.trailShift;
@@ -54,31 +68,39 @@ export class Fireflies implements Background {
 			t[j + 1] = (((t[i + 1] + t[j + 3] * s) % d) + d) % d;
 		}
 
-		Fireflies.offset += s * 20;
+		Fireflies.offset += s * 100;
 	}
 
-	draw2d(ctx: CanvasRenderingContext2D, width: number, height: number) {
+	draw(ctx: CanvasRenderingContext2D) {
+		const width = ctx.canvas.width / Fireflies.dpr;
+		const height = ctx.canvas.height / Fireflies.dpr;
+
 		ctx.clearRect(0, 0, width, height);
 
-		ctx.fillStyle = "#5f8f7d";
+		ctx.fillStyle = this.backgroundColor();
 		ctx.fillRect(0, 0, width, height);
 
-		const offset = Fireflies.offset % (height * 2);
-		const gradient = ctx.createLinearGradient(0, offset - height, 10, offset);
+		const offset = Fireflies.offset % (height * 1.1);
+		const gradient = ctx.createLinearGradient(
+			0,
+			offset - height / 2,
+			10,
+			offset + height / 2,
+		);
 		gradient.addColorStop(0.4, "rgb(0 0 0 / 50%)");
 		gradient.addColorStop(0.5, "rgb(0 0 0 / 40%)");
 		gradient.addColorStop(0.6, "rgb(0 0 0 / 50%)");
 		ctx.fillStyle = gradient;
 		ctx.fillRect(0, 0, width, height);
 
-		ctx.globalCompositeOperation = "lighter";
-		ctx.shadowBlur = 12;
-		ctx.shadowColor = "#099673";
-		ctx.lineWidth = 2.5;
-
 		const shift = Fireflies.trailShift;
 		const l = Fireflies.trailLength;
 		const d = Fireflies.curlDim;
+
+		ctx.globalCompositeOperation = "source-over";
+		ctx.shadowBlur = 12;
+		ctx.shadowColor = "#054434";
+		ctx.lineWidth = 2.5;
 
 		for (let i = 0; i < Fireflies.trailCount * l; i += l) {
 			let x0 = (Fireflies.trails[i + shift + 0] / d) * width;
@@ -96,7 +118,7 @@ export class Fireflies implements Background {
 				if (dx < width * 0.5 && dy < height * 0.5) {
 					const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
 					gradient.addColorStop(0, "#3f3f8d");
-					gradient.addColorStop(0.5, "#099673");
+					gradient.addColorStop(0.5, "#6c9609");
 					gradient.addColorStop(1, "#3f3f8d");
 
 					ctx.beginPath();
@@ -111,6 +133,4 @@ export class Fireflies implements Background {
 			}
 		}
 	}
-
-	drawWebgl2(): void {}
 }

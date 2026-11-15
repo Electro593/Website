@@ -61,12 +61,11 @@ const FS_SOURCE = `#version 300 es
 	out vec4 oFragColor;
 
 	void main() {
-		oFragColor = vec4(1.0, 1.0, 1.0, 1.0);
+		oFragColor = vec4(0.2, 0.8, 0.9, 1);
 	}
 `;
 
-export class Tron implements Background {
-	initialized = false;
+export class Tron implements Background<WebGL2RenderingContext> {
 	program: WebGLProgram | null = null;
 
 	vao: WebGLVertexArrayObject | null = null;
@@ -76,12 +75,16 @@ export class Tron implements Background {
 	uModelViewMatrix: WebGLUniformLocation | null = null;
 	uProjectionMatrix: WebGLUniformLocation | null = null;
 
-	init(gl: WebGL2RenderingContext) {
-		if (this.initialized) return;
-		this.initialized = true;
+	backgroundColor(): string {
+		return "#3f3f8d";
+	}
+
+	init(canvas: HTMLCanvasElement): WebGL2RenderingContext | null {
+		const gl = canvas.getContext("webgl2");
+		if (!gl) return null;
 
 		this.program = createProgram(gl, VS_SOURCE, FS_SOURCE);
-		if (!this.program) return;
+		if (!this.program) return null;
 
 		this.uModelViewMatrix = gl.getUniformLocation(
 			this.program,
@@ -112,6 +115,12 @@ export class Tron implements Background {
 		gl.clearDepth(1);
 		gl.enable(gl.DEPTH_TEST);
 		gl.depthFunc(gl.LEQUAL);
+
+		return gl;
+	}
+
+	resize(gl: WebGL2RenderingContext) {
+		gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 	}
 
 	simulate(seconds: number): void {
@@ -123,26 +132,21 @@ export class Tron implements Background {
 		}
 	}
 
-	draw2d(): void {}
-
-	drawWebgl2(gl: WebGL2RenderingContext, width: number, height: number): void {
-		this.init(gl);
-		if (!this.program) return;
-
+	draw(gl: WebGL2RenderingContext): void {
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		const projectionMatrix = mat4.create();
 		mat4.perspective(
 			projectionMatrix,
 			(45 * Math.PI) / 180,
-			width / height,
+			gl.canvas.width / gl.canvas.height,
 			0.1,
 			100,
 		);
 
 		const modelViewMatrix = mat4.create();
 		mat4.translate(modelViewMatrix, modelViewMatrix, [0, -1, -1]);
-		mat4.scale(modelViewMatrix, modelViewMatrix, [4, 2, 10]);
+		mat4.scale(modelViewMatrix, modelViewMatrix, [10, 2, 10]);
 
 		gl.useProgram(this.program);
 		gl.bindVertexArray(this.vao);

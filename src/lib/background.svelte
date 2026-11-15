@@ -1,18 +1,17 @@
-<script lang="ts" module>
-	import { Fireflies, Tron } from "./backgrounds";
-
-	const tron = new Tron();
-	const fireflies = new Fireflies();
-</script>
-
 <script lang="ts">
 	import type { SvelteHTMLElements } from "svelte/elements";
+	import { getBackground } from "./backgrounds";
+
+	type BackgroundProps = SvelteHTMLElements["div"] & { seed: number };
 
 	let {
 		children,
 		class: className,
+		seed,
 		...restProps
-	}: SvelteHTMLElements["div"] = $props();
+	}: BackgroundProps = $props();
+
+	const background = $derived(getBackground(seed));
 
 	let canvas: HTMLCanvasElement;
 	let lastTime = 0;
@@ -21,9 +20,8 @@
 		if (window.getComputedStyle(canvas).display !== "block") return;
 		const dpr = window.devicePixelRatio || 1;
 
-		const gl = canvas.getContext("webgl2");
-		const ctx = canvas.getContext("2d");
-		if (!gl && !ctx) return;
+		const ctx = background.init(canvas);
+		if (!ctx) return;
 
 		let backingWidth = 0;
 		let backingHeight = 0;
@@ -46,21 +44,12 @@
 			) {
 				canvas.width = backingWidth;
 				canvas.height = backingHeight;
-				if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-				if (gl) gl.viewport(0, 0, canvas.width, canvas.height);
+				background.resize(ctx, dpr);
 				resizePending = false;
 			}
 
-			const width = canvas.width / dpr;
-			const height = canvas.height / dpr;
-
-			if (gl) {
-				tron.simulate(deltaTime);
-				tron.drawWebgl2(gl, width, height);
-			} else if (ctx) {
-				fireflies.simulate(deltaTime);
-				fireflies.draw2d(ctx, width, height);
-			}
+			background.simulate(deltaTime);
+			background.draw(ctx);
 
 			animationFrame = requestAnimationFrame(draw);
 		};
@@ -76,7 +65,7 @@
 </script>
 
 <div class={["frame", className]} {...restProps}>
-	<div class="viewport">
+	<div class="viewport" style:--color-background={background.backgroundColor()}>
 		<canvas aria-hidden="true" bind:this={canvas} hidden></canvas>
 
 		<div class="gutter"></div>
@@ -94,7 +83,6 @@
 	.frame {
 		--aspect-ratio: calc(16 / 9);
 		--color-frame: #444;
-		--color-background: #5f8f7d;
 
 		position: absolute;
 		inset: 0;
@@ -116,12 +104,6 @@
 				display: block;
 				width: 100%;
 				height: 100%;
-
-				/* background: linear-gradient(
-					to bottom,
-					rgb(0 0 0 / 80%),
-					rgb(0 0 0 / 20%)
-				); */
 			}
 
 			& > .gutter {

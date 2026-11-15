@@ -34,7 +34,7 @@
 
 		& :global(.bubble) {
 			padding: 0.5em;
-			background-color: color-mix(in srgb, black 20%, transparent);
+			background-color: color-mix(in srgb, black 40%, transparent);
 			border: solid 0.325em blue;
 			border-radius: 1em;
 		}

@@ -4,7 +4,7 @@
 	import Theme from "#lib/theme.svelte";
 	import type { LayoutProps } from "./$types";
 
-	let { children }: LayoutProps = $props();
+	let { children, data }: LayoutProps = $props();
 </script>
 
 <svelte:head>
@@ -12,4 +12,8 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<Theme><Background>{@render children()}</Background></Theme>
+<Theme>
+	<Background seed={data.backgroundSeed}>
+		{@render children()}
+	</Background>
+</Theme>
