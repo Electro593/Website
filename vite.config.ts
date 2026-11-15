@@ -3,8 +3,17 @@ import { enhancedImages } from "@sveltejs/enhanced-img";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 
+const disableCss = () => ({
+	name: "disable-css",
+	enforce: "pre",
+	load(id) {
+		if (id.includes(".css")) return "";
+	},
+});
+
 export default defineConfig({
 	plugins: [
+		// disableCss(),
 		enhancedImages(),
 		sveltekit({
 			compilerOptions: {
