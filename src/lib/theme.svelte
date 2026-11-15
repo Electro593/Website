@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { SvelteHTMLElements } from "svelte/elements";
+	import "@fontsource/dejavu-serif";
 
 	let { children, ...restProps }: SvelteHTMLElements["div"] = $props();
 </script>
@@ -8,7 +9,9 @@
 
 <style>
 	:where(div) {
+		font-family: "DejaVu Serif", serif;
 		color: white;
+		text-shadow: 0 0 10px black;
 
 		& :global(*) {
 			box-sizing: border-box;
@@ -35,8 +38,9 @@
 		& :global(.bubble) {
 			padding: 0.5em;
 			background-color: color-mix(in srgb, black 40%, transparent);
-			border: solid 0.325em blue;
+			border: solid 0.325em #38e;
 			border-radius: 1em;
+			box-shadow: 0 0 10px #099673;
 		}
 
 		& :global(.anchor) {
@@ -49,6 +53,10 @@
 		& :global(.selectable),
 		& :global(.selectable *) {
 			user-select: text;
+		}
+
+		& :global(.title) {
+			text-shadow: 0 0 10px #099673;
 		}
 	}
 </style>

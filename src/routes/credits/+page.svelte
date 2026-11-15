@@ -7,9 +7,11 @@
 	<title>Credits | Electro_593</title>
 </svelte:head>
 
-<main class="anchor bubble">
-	<h1>Credits</h1>
+<header class="anchor">
+	<h1 class="title">Credits</h1>
+</header>
 
+<main class="anchor bubble">
 	<div class="overview">
 		<address>
 			<ul class="selectable">
@@ -61,13 +63,21 @@
 </footer>
 
 <style>
+	header {
+		margin: 2em auto auto;
+
+		& > h1 {
+			font-size: 4em;
+		}
+	}
+
 	.heading {
 		color: #aaa;
 		text-transform: uppercase;
 	}
 
 	main {
-		inset: 2em 8em 8em;
+		inset: 8em;
 		display: flex;
 		flex-direction: column;
 		gap: 4em;
@@ -75,14 +85,10 @@
 		height: auto;
 		text-align: center;
 
-		& > h1 {
-			font-size: 4em;
-		}
-
 		& > .overview {
 			display: flex;
 			height: 13em;
-			margin: 0 2em;
+			margin: 2em;
 
 			& > address {
 				flex: 2;

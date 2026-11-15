@@ -7,7 +7,9 @@
 </svelte:head>
 
 <header class="anchor">
-	<h1 title="Darn it! I just lost the game.">Electro_593: The Game</h1>
+	<h1 class="title">
+		Electro_593: <span title="Darn it! I just lost the game.">The Game</span>
+	</h1>
 	<p>Portfolio Edition!</p>
 </header>
 
@@ -15,10 +17,10 @@
 	<ul>
 		<!-- TODO: Could have a lightning buzz animation on hover, and a zap on active -->
 		<li class="bubble">
-			<a href={resolve("/singleplayer")} title="Projects">Singleplayer</a>
+			<a href={resolve("/continue")} title="Projects">Continue</a>
 		</li>
 		<li class="bubble">
-			<a href={resolve("/multiplayer")} title="Groups">Multiplayer</a>
+			<a href={resolve("/load-save")} title="Projects">Load Save</a>
 		</li>
 		<li class="bubble">
 			<a href={resolve("/dlc")} title="Non-Software Work">DLC</a>
@@ -39,8 +41,6 @@
 	</article>
 </aside>
 
-<!-- TODO: The bottom-right needs something. Not sure what yet. -->
-
 <style>
 	header {
 		margin: 2em auto auto;
@@ -48,12 +48,14 @@
 
 		& > h1 {
 			font-size: 6em;
-			text-shadow: 0 0 10px #099673;
 		}
 
 		& > p {
+			display: inline-block;
 			margin-top: 0.5em;
 			font-size: 2em;
+			color: #d4e851;
+			transform: rotate(-7deg);
 		}
 	}
 
@@ -68,7 +70,6 @@
 			list-style: none;
 
 			& > li {
-				border: solid 0.325em blue;
 				border-radius: 1em;
 
 				& > a {
