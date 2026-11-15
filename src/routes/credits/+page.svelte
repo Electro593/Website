@@ -25,17 +25,19 @@
 				</li>
 				<li>
 					<span class="heading">Marketing & Outreach<span>:</span></span>
-					<a href="https://www.linkedin.com/in/aria-seiler/"
+					<a href="https://www.linkedin.com/in/aria-seiler/" target="_blank"
 						>linkedin.com/in/aria-seiler</a
 					>
 				</li>
 				<li>
 					<span class="heading">Engine & Infrastructure<span>:</span></span>
-					<a href="https://github.com/Electro593">github.com/Electro593</a>
+					<a href="https://github.com/Electro593" target="_blank"
+						>github.com/Electro593</a
+					>
 				</li>
 				<li>
 					<span class="heading">Publisher<span>:</span></span>
-					<a href="https://www.electro593.dev">electro593.dev</a>
+					<a href="https://electro593.dev" target="_blank">electro593.dev</a>
 				</li>
 			</ul>
 		</address>
