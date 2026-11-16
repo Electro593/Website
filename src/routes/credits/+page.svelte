@@ -1,16 +1,21 @@
 <script lang="ts" module>
-	let autoScroll = true;
 </script>
 
 <script lang="ts">
+	import { Button } from "#lib";
 	import portrait from "#lib/assets/portrait.webp";
+	import { getSessionValue, setSessionValue } from "#lib/services/storage.ts";
 	import { resolve } from "$app/paths";
 
+	let autoScroll = $state(getSessionValue("auto-scroll", true));
 	let lastTime = 0;
 	let main: HTMLElement;
 
 	const handleScroll = () => {
-		autoScroll = false;
+		if (autoScroll) {
+			autoScroll = false;
+			setSessionValue("auto-scroll", false);
+		}
 	};
 
 	$effect(() => {
@@ -100,8 +105,8 @@
 </main>
 
 <footer class="anchor">
-	<nav class="bubble">
-		<a href={resolve("/")} title="Home">Main Menu</a>
+	<nav>
+		<Button element="a" href={resolve("/")} title="Home">Main Menu</Button>
 	</nav>
 </footer>
 
@@ -186,10 +191,6 @@
 
 	footer {
 		margin: auto auto 2em;
-
-		& > nav > a {
-			font-size: 2.75em;
-		}
 	}
 
 	@keyframes scroll-vignette {

@@ -1,5 +1,16 @@
-<script>
+<script lang="ts">
+	import { Button } from "#lib";
+	import { getLocalValue, setLocalValue } from "#lib/services/storage.ts";
 	import { resolve } from "$app/paths";
+
+	let showHelp = $state(
+		typeof window === "undefined" ? false : getLocalValue("show-help", true),
+	);
+
+	const handleClickHelp = () => {
+		showHelp = !showHelp;
+		setLocalValue("show-help", showHelp);
+	};
 </script>
 
 <svelte:head>
@@ -16,59 +27,76 @@
 <main>
 	<nav>
 		<ul>
-			<li class="bubble">
-				<a href={resolve("/new-game")} title="Requests & Contracting"
-					>New Game</a
+			<li>
+				<Button
+					element="a"
+					href={resolve("/new-game")}
+					title="Requests & Contracting">New Game</Button
 				>
 			</li>
-			<li class="bubble">
-				<a href={resolve("/load-save")} title="Projects">Load Save</a>
+			<li>
+				<Button element="a" href={resolve("/load-save")} title="Projects"
+					>Load Save</Button
+				>
 			</li>
-			<li class="bubble">
-				<a href={resolve("/dlc")} title="Non-Software Work">DLC</a>
+			<li>
+				<Button element="a" href={resolve("/extras")} title="Non-Software Work"
+					>Extras</Button
+				>
 			</li>
-			<li class="bubble">
-				<a href={resolve("/credits")} title="About & Contact">Credits</a>
+			<li>
+				<Button element="a" href={resolve("/credits")} title="About & Contact"
+					>Credits</Button
+				>
 			</li>
-			<li class="bubble"><button title="For squares">What is this?</button></li>
+			<li>
+				<Button
+					active={showHelp}
+					element="button"
+					onclick={handleClickHelp}
+					title="How to Navigate">What is this?</Button
+				>
+			</li>
 		</ul>
 	</nav>
 
-	<section class="bubble">
-		<h2>Welcome to my portfolio!</h2>
-		<p>
-			As you can see, this website is designed to imitate a video game's menu
-			UI. It may not be entirely intuitive which links navigate to what; you can
-			hover over them to see tooltips of their actual content. But you don't
-			have to!
-		</p>
+	{#if showHelp}
+		<section class="bubble">
+			<h2>Welcome to my portfolio!</h2>
+			<p>
+				As you can see, this website is designed to imitate a video game's menu
+				UI. It may not be entirely intuitive which links navigate to what; you
+				can hover over them to see tooltips of their actual content. But you
+				don't have to!
+			</p>
 
-		<h3>TL;DR</h3>
-		<ul>
-			<li>
-				Go to <a href={resolve("/new-game")}>New Game</a> to make requests.
-			</li>
-			<li>
-				Go to <a href={resolve("/load-save")}>Load Save</a> to see my work.
-			</li>
-			<li>
-				Go to <a href={resolve("/dlc")}>DLC</a> to see my non-software work.
-			</li>
-			<li>
-				Go to <a href={resolve("/credits")}>Credits</a> to see details about me.
-			</li>
-			<li>
-				Go to <a href={resolve("/changelog")}>Changelog</a> to see my blog.
-			</li>
-		</ul>
+			<h3>TL;DR</h3>
+			<ul>
+				<li>
+					Go to <a href={resolve("/new-game")}>New Game</a> to make requests.
+				</li>
+				<li>
+					Go to <a href={resolve("/load-save")}>Load Save</a> to see my work.
+				</li>
+				<li>
+					Go to <a href={resolve("/extras")}>Extras</a> to see my non-software work.
+				</li>
+				<li>
+					Go to <a href={resolve("/credits")}>Credits</a> to see details about me.
+				</li>
+				<li>
+					Go to <a href={resolve("/changelog")}>Changelog</a> to see my blog.
+				</li>
+			</ul>
 
-		<h3>Fun Stuff</h3>
-		<p>
-			You can refresh or click the bottom-left to see a variety of different
-			backgrounds! See which one is your favorite-- mine is "Fireflies", though
-			they're all very cool!
-		</p>
-	</section>
+			<h3>Fun Stuff</h3>
+			<p>
+				You can refresh or click the bottom-left to see a variety of different
+				backgrounds! See which one is your favorite-- mine is "Fireflies",
+				though they're all very cool!
+			</p>
+		</section>
+	{/if}
 
 	<aside class="bubble">
 		<h2 title="Blog">Changelog</h2>
@@ -100,10 +128,11 @@
 	main {
 		display: flex;
 		gap: 4em;
+		justify-content: space-between;
 		margin: 16em 4em 2em;
 
 		& > nav {
-			flex: 1;
+			width: 20em;
 
 			& > ul {
 				display: flex;
@@ -113,13 +142,6 @@
 				list-style: none;
 
 				& > li {
-					& > * {
-						display: block;
-						width: 100%;
-						height: 100%;
-						font-size: 2.75em;
-					}
-
 					&:last-child {
 						margin-top: 2em;
 						color: var(--color-highlight);
@@ -130,9 +152,9 @@
 
 		& > section {
 			display: flex;
-			flex: 1.7;
 			flex-direction: column;
 			gap: 1em;
+			width: 36em;
 			line-height: 1.5;
 
 			& > ul {
@@ -142,9 +164,9 @@
 
 		& > aside {
 			display: flex;
-			flex: 1.3;
 			flex-direction: column;
 			gap: 0.5em;
+			width: 28em;
 		}
 	}
 </style>
