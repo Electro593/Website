@@ -54,8 +54,8 @@
 			</li>
 			<li>
 				<span class="heading">Player Support<span>:</span></span>
-				<a draggable="false" href="mailto:electro5939@gmail.com"
-					>electro5939@gmail.com</a
+				<a draggable="false" href="mailto:contact@electro593.dev"
+					>contact@electro593.dev</a
 				>
 			</li>
 			<li>

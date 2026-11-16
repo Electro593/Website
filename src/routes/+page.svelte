@@ -31,7 +31,7 @@
 				<Button
 					element="a"
 					href={resolve("/new-game")}
-					title="Requests & Contracting">New Game</Button
+					title="Guides & Tutorials">New Game</Button
 				>
 			</li>
 			<li>
@@ -73,19 +73,24 @@
 			<h3>TL;DR</h3>
 			<ul>
 				<li>
-					Go to <a href={resolve("/new-game")}>New Game</a> to make requests.
+					Go to <a draggable="false" href={resolve("/new-game")}>New Game</a> to make
+					requests.
 				</li>
 				<li>
-					Go to <a href={resolve("/load-save")}>Load Save</a> to see my work.
+					Go to <a draggable="false" href={resolve("/load-save")}>Load Save</a> to
+					see my work.
 				</li>
 				<li>
-					Go to <a href={resolve("/extras")}>Extras</a> to see my non-software work.
+					Go to <a draggable="false" href={resolve("/extras")}>Extras</a> to see my
+					non-software work.
 				</li>
 				<li>
-					Go to <a href={resolve("/credits")}>Credits</a> to see details about me.
+					Go to <a draggable="false" href={resolve("/credits")}>Credits</a> to see
+					details about me.
 				</li>
 				<li>
-					Go to <a href={resolve("/changelog")}>Changelog</a> to see my blog.
+					Go to <a draggable="false" href={resolve("/changelog")}>Changelog</a> to
+					see my blog.
 				</li>
 			</ul>
 
@@ -133,7 +138,7 @@
 		margin: 16em 4em 2em;
 
 		& > nav {
-			width: 22em;
+			width: 21em;
 
 			& > ul {
 				display: flex;
@@ -153,7 +158,7 @@
 		}
 
 		& > section {
-			width: 36em;
+			width: 32em;
 			line-height: 1.5;
 
 			& > ul {
@@ -163,7 +168,7 @@
 		}
 
 		& > aside {
-			width: 28em;
+			width: 27em;
 		}
 	}
 </style>
