@@ -177,6 +177,10 @@
 					font-size: 1cqi;
 					pointer-events: none;
 					isolation: isolate;
+
+					& > :global(*) {
+						pointer-events: all;
+					}
 				}
 			}
 		}
