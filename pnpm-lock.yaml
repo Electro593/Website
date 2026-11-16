@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/dejavu-mono':
+        specifier: ^5.3.0
+        version: 5.3.0
       '@fontsource/dejavu-serif':
         specifier: ^5.3.0
         version: 5.3.0
@@ -224,6 +227,9 @@ packages:
   '@eslint/plugin-kit@0.7.3':
     resolution: {integrity: sha512-IkO+/KEUvwbVpiURZg+P7zF74z5Jxe0UgJxVni+RtoHQ6IZieXaO02kmadomap/q+l6bc/jdPGGqTjhuZnuz1Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@fontsource/dejavu-mono@5.3.0':
+    resolution: {integrity: sha512-TiW6o/iRt7rnm3c3ezO3V7mNDI6h2IYca1j8Krke5qebUUW9dXF+BFzXFgbCMyXBVfmUbYPmhOInEqdy9ZgblA==}
 
   '@fontsource/dejavu-serif@5.3.0':
     resolution: {integrity: sha512-mozsfkGAkRq8agQhJLw5xHgjX+qYr6n5zgtUxUUDNpPoY/7UGm+kMR7GaSDe/7erJXTKJ8wfWt7hW1f+SrrU9g==}
@@ -1690,6 +1696,8 @@ snapshots:
     dependencies:
       '@eslint/core': 1.2.1
       levn: 0.4.1
+
+  '@fontsource/dejavu-mono@5.3.0': {}
 
   '@fontsource/dejavu-serif@5.3.0': {}
 

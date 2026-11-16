@@ -113,6 +113,7 @@
 		text-align: right;
 
 		& > h1 {
+			margin: 0;
 			font-size: 6em;
 		}
 
@@ -132,12 +133,13 @@
 		margin: 16em 4em 2em;
 
 		& > nav {
-			width: 20em;
+			width: 22em;
 
 			& > ul {
 				display: flex;
 				flex-direction: column;
 				gap: 1.5em;
+				padding: 0;
 				text-align: center;
 				list-style: none;
 
@@ -151,21 +153,16 @@
 		}
 
 		& > section {
-			display: flex;
-			flex-direction: column;
-			gap: 1em;
 			width: 36em;
 			line-height: 1.5;
 
 			& > ul {
+				padding: 0;
 				list-style: none;
 			}
 		}
 
 		& > aside {
-			display: flex;
-			flex-direction: column;
-			gap: 0.5em;
 			width: 28em;
 		}
 	}

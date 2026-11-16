@@ -14,6 +14,7 @@
 	let backgroundIndex = $derived(getBackgroundIndex(seed));
 	const background = $derived(getBackground(backgroundIndex));
 
+	let figure: HTMLElement | null = $state(null);
 	let canvas: HTMLCanvasElement | null = $state(null);
 	let lastTime = 0;
 
@@ -22,7 +23,8 @@
 	};
 
 	$effect(() => {
-		if (!canvas || window.getComputedStyle(canvas).display !== "block") return;
+		if (!figure || !canvas) return;
+		if (window.getComputedStyle(figure).display !== "block") return;
 		const dpr = window.devicePixelRatio || 1;
 
 		const ctx = background.init(canvas);
@@ -73,16 +75,16 @@
 
 <div class={["frame", className]} {...restProps}>
 	<div class="viewport" style:--color-background={background.backgroundColor()}>
-		<figure>
-			{#key background}
-				<canvas aria-hidden="true" bind:this={canvas} hidden></canvas>
-			{/key}
-			<figcaption>
-				Now showing: <button onclick={nextBackground}
-					>{background.name()}</button
-				>
-			</figcaption>
-		</figure>
+		{#key background}
+			<figure hidden bind:this={figure}>
+				<canvas aria-hidden="true" bind:this={canvas}></canvas>
+				<figcaption>
+					Now showing: <button onclick={nextBackground}
+						>{background.name()}</button
+					>
+				</figcaption>
+			</figure>
+		{/key}
 
 		<div class="gutter"></div>
 
@@ -95,6 +97,11 @@
 </div>
 
 <style>
+	* {
+		padding: 0;
+		margin: 0;
+	}
+
 	/* TODO: Random, or changing, background colors */
 	.frame {
 		--aspect-ratio: calc(16 / 9);
@@ -138,8 +145,11 @@
 					color: #bbb;
 
 					& > button {
+						all: unset;
 						padding: 0.25em;
 						color: white;
+						cursor: pointer;
+						outline: revert;
 						border: 1px solid rgb(128 128 128 / 50%);
 						border-radius: 0.5em;
 					}

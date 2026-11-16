@@ -129,9 +129,6 @@
 	}
 
 	main {
-		display: flex;
-		flex-direction: column;
-		gap: 4em;
 		width: auto;
 		height: auto;
 		padding: 2em;
@@ -156,6 +153,7 @@
 			flex-flow: column wrap;
 			gap: 2em;
 			height: 100%;
+			padding: 0;
 			list-style: none;
 
 			& > li {

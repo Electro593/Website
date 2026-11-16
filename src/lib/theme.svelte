@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { SvelteHTMLElements } from "svelte/elements";
 	import "@fontsource/dejavu-serif";
+	import "@fontsource/dejavu-mono";
 
 	let { children, ...restProps }: SvelteHTMLElements["div"] = $props();
 </script>
@@ -8,6 +9,10 @@
 <div {...restProps}>{@render children?.()}</div>
 
 <style>
+	:root {
+		interpolate-size: allow-keywords;
+	}
+
 	:where(div) {
 		--color-yellow: #d4e851;
 		--color-highlight: #d8e391;
@@ -17,16 +22,14 @@
 		text-shadow: 0 0 10px black;
 
 		& :global(*) {
-			box-sizing: border-box;
-			padding: 0;
-			margin: 0;
 			user-select: none;
 		}
 
-		& :global(button) {
-			all: unset;
-			cursor: pointer;
-			outline: revert;
+		& :global(code),
+		& :global(pre),
+		& :global(kbd),
+		& :global(samp) {
+			font-family: "DejaVu Mono", monospace;
 		}
 
 		& :global(p) {
