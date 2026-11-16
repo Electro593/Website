@@ -1,51 +1,81 @@
-<script>
+<script lang="ts">
 	import portrait from "#lib/assets/portrait.webp";
 	import { resolve } from "$app/paths";
+
+	let lastTime = 0;
+	let autoScroll = true;
+	let main: HTMLElement;
+
+	const handleScroll = () => {
+		autoScroll = false;
+	};
+
+	$effect(() => {
+		const scroll = (timestamp: number) => {
+			if (!autoScroll) return;
+
+			let deltaTime = timestamp - (lastTime || timestamp) * 0.0001;
+			if (deltaTime > 0.1) deltaTime = 0.1;
+			lastTime = timestamp;
+
+			main.scrollBy({ behavior: "smooth", top: deltaTime * 5 });
+			animationFrame = requestAnimationFrame(scroll);
+		};
+
+		let animationFrame = requestAnimationFrame(scroll);
+
+		return () => {
+			cancelAnimationFrame(animationFrame);
+		};
+	});
 </script>
 
 <svelte:head>
 	<title>Credits | Electro_593</title>
 </svelte:head>
 
-<header class="anchor">
-	<h1 class="title">Credits</h1>
-</header>
+<footer class="anchor">
+	<nav class="bubble">
+		<a href={resolve("/")}>Main Menu</a>
+	</nav>
+</footer>
 
-<main class="anchor bubble">
-	<div class="overview">
-		<address>
-			<ul class="selectable">
-				<li>
-					<span class="heading">Lead Developer<span>:</span></span>
-					<span>Aria Seiler (Electro_593)</span>
-				</li>
-				<li>
-					<span class="heading">Player Support<span>:</span></span>
-					<a href="mailto:electro5939@gmail.com">electro5939@gmail.com</a>
-				</li>
-				<li>
-					<span class="heading">Marketing & Outreach<span>:</span></span>
-					<a href="https://www.linkedin.com/in/aria-seiler/" target="_blank"
-						>linkedin.com/in/aria-seiler</a
-					>
-				</li>
-				<li>
-					<span class="heading">Engine & Infrastructure<span>:</span></span>
-					<a href="https://github.com/Electro593" target="_blank"
-						>github.com/Electro593</a
-					>
-				</li>
-				<li>
-					<span class="heading">Publisher<span>:</span></span>
-					<a href="https://electro593.dev" target="_blank">electro593.dev</a>
-				</li>
-			</ul>
-		</address>
+<main bind:this={main} class="anchor bubble" onwheel={handleScroll}>
+	<h1 class="heading">Credits</h1>
 
-		<figure>
-			<enhanced:img alt="Me" class="img" decoding="sync" src={portrait} />
-		</figure>
-	</div>
+	<h2 class="heading">Team</h2>
+	<address>
+		<ul class="selectable">
+			<li>
+				<span class="heading">Lead Developer<span>:</span></span>
+				<span>Aria Seiler (Electro_593)</span>
+			</li>
+			<li>
+				<span class="heading">Player Support<span>:</span></span>
+				<a href="mailto:electro5939@gmail.com">electro5939@gmail.com</a>
+			</li>
+			<li>
+				<span class="heading">Marketing & Outreach<span>:</span></span>
+				<a href="https://www.linkedin.com/in/aria-seiler/" target="_blank"
+					>linkedin.com/in/aria-seiler</a
+				>
+			</li>
+			<li>
+				<span class="heading">Engine & Infrastructure<span>:</span></span>
+				<a href="https://github.com/Electro593" target="_blank"
+					>github.com/Electro593</a
+				>
+			</li>
+			<li>
+				<span class="heading">Publisher<span>:</span></span>
+				<a href="https://electro593.dev" target="_blank">electro593.dev</a>
+			</li>
+		</ul>
+	</address>
+
+	<figure>
+		<enhanced:img alt="Me" class="img" decoding="sync" src={portrait} />
+	</figure>
 
 	<section class="introduction">
 		<h2 class="heading">To the Community</h2>
@@ -58,19 +88,17 @@
 	</section>
 </main>
 
-<footer class="anchor">
-	<nav class="bubble">
-		<a href={resolve("/")}>Main Menu</a>
-	</nav>
-</footer>
-
 <style>
-	header {
-		margin: 2em auto auto;
+	@property --top-fade {
+		syntax: "<color>";
+		inherits: false;
+		initial-value: #000;
+	}
 
-		& > h1 {
-			font-size: 4em;
-		}
+	@property --bottom-fade {
+		syntax: "<color>";
+		inherits: false;
+		initial-value: #000;
 	}
 
 	.heading {
@@ -79,54 +107,64 @@
 	}
 
 	main {
-		inset: 8em;
 		display: flex;
 		flex-direction: column;
 		gap: 4em;
 		width: auto;
 		height: auto;
+		padding: 2em;
+		margin: 2em 30em 8em;
+		overflow-y: scroll;
 		text-align: center;
+		background-color: color-mix(in srgb, black 40%, transparent);
+		mask-image: linear-gradient(
+			to bottom,
+			var(--top-fade) 0,
+			rgb(0 0 0 / 100%) 4em,
+			rgb(0 0 0 / 100%) calc(100% - 4em),
+			var(--bottom-fade) 100%
+		);
+		mask-clip: padding-box;
+		mask-origin: padding-box;
+		animation: scroll-vignette linear both;
+		animation-timeline: scroll(self y);
 
-		& > .overview {
-			display: flex;
-			height: 13em;
-			margin: 2em;
+		& > address {
+			flex: 2;
 
-			& > address {
-				flex: 2;
+			& > ul {
+				display: flex;
+				flex-flow: column wrap;
+				gap: 2em;
+				height: 100%;
+				list-style: none;
 
-				& > ul {
-					display: flex;
-					flex-flow: column wrap;
-					gap: 2em;
-					height: 100%;
-					list-style: none;
+				& > li {
+					display: block;
 
-					& > li {
+					& > *:first-child {
 						display: block;
+						margin-bottom: 0.25em;
 
-						& > *:first-child {
-							display: block;
-							margin-bottom: 0.25em;
-
-							& > span {
-								display: none;
-							}
+						& > span {
+							display: none;
 						}
+					}
 
-						& > *:last-child {
-							font-style: normal;
-						}
+					& > *:last-child {
+						font-style: normal;
 					}
 				}
 			}
+		}
 
-			& > figure {
-				flex: 1;
+		& > figure {
+			flex: 1;
 
-				& > .img {
-					height: 100%;
-				}
+			& > .img {
+				height: 100%;
+				border: 0.25em solid rgb(105 105 81);
+				border-radius: 0.5em;
 			}
 		}
 
@@ -134,20 +172,32 @@
 			& > h2 {
 				margin-bottom: 0.5em;
 			}
-
-			& > p {
-				padding: 0 8em;
-			}
 		}
 	}
 
 	footer {
 		margin: auto auto 2em;
 
-		& > nav {
-			& > a {
-				font-size: 2.75em;
-			}
+		& > nav > a {
+			font-size: 2.75em;
+		}
+	}
+
+	@keyframes scroll-vignette {
+		0% {
+			--top-fade: #000;
+			--bottom-fade: transparent;
+		}
+
+		10%,
+		90% {
+			--top-fade: transparent;
+			--bottom-fade: transparent;
+		}
+
+		100% {
+			--top-fade: transparent;
+			--bottom-fade: #000;
 		}
 	}
 </style>

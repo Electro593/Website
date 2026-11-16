@@ -17,7 +17,7 @@
 	<ul>
 		<!-- TODO: Could have a lightning buzz animation on hover, and a zap on active -->
 		<li class="bubble">
-			<a href={resolve("/continue")} title="Projects">Continue</a>
+			<a href={resolve("/new-game")} title="Projects">New Game</a>
 		</li>
 		<li class="bubble">
 			<a href={resolve("/load-save")} title="Projects">Load Save</a>
@@ -70,8 +70,6 @@
 			list-style: none;
 
 			& > li {
-				border-radius: 1em;
-
 				& > a {
 					display: block;
 					width: 100%;

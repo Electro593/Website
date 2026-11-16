@@ -76,7 +76,7 @@ export class Tron implements Background<WebGL2RenderingContext> {
 	uProjectionMatrix: WebGLUniformLocation | null = null;
 
 	backgroundColor(): string {
-		return "#3f3f8d";
+		return "#212146";
 	}
 
 	init(canvas: HTMLCanvasElement): WebGL2RenderingContext | null {
@@ -111,7 +111,14 @@ export class Tron implements Background<WebGL2RenderingContext> {
 
 		gl.bindVertexArray(null);
 
-		gl.clearColor(0.247, 0.247, 0.553, 1);
+		const color = this.backgroundColor();
+		const colorInt = parseInt(color.replace(/^#/, ""), 16);
+		gl.clearColor(
+			((colorInt >> 16) & 255) / 255.0,
+			((colorInt >> 8) & 255) / 255.0,
+			(colorInt & 255) / 255.0,
+			1,
+		);
 		gl.clearDepth(1);
 		gl.enable(gl.DEPTH_TEST);
 		gl.depthFunc(gl.LEQUAL);
@@ -146,7 +153,7 @@ export class Tron implements Background<WebGL2RenderingContext> {
 
 		const modelViewMatrix = mat4.create();
 		mat4.translate(modelViewMatrix, modelViewMatrix, [0, -1, -1]);
-		mat4.scale(modelViewMatrix, modelViewMatrix, [10, 2, 10]);
+		mat4.scale(modelViewMatrix, modelViewMatrix, [10, 1.8, 10]);
 
 		gl.useProgram(this.program);
 		gl.bindVertexArray(this.vao);
