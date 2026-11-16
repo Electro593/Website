@@ -24,6 +24,10 @@ export class Fireflies implements Background<CanvasRenderingContext2D> {
 	static offset = 0;
 	static dpr = 1;
 
+	name(): string {
+		return "Fireflies";
+	}
+
 	backgroundColor(): string {
 		return "#5f8f7d";
 	}

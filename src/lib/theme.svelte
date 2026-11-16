@@ -9,6 +9,9 @@
 
 <style>
 	:where(div) {
+		--color-yellow: #d4e851;
+		--color-highlight: #d8e391;
+
 		font-family: "DejaVu Serif", serif;
 		color: white;
 		text-shadow: 0 0 10px black;
@@ -24,6 +27,10 @@
 			all: unset;
 			cursor: pointer;
 			outline: revert;
+		}
+
+		& :global(p) {
+			line-height: 1.5;
 		}
 
 		& :global(a) {

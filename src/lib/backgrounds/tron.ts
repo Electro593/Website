@@ -75,6 +75,10 @@ export class Tron implements Background<WebGL2RenderingContext> {
 	uModelViewMatrix: WebGLUniformLocation | null = null;
 	uProjectionMatrix: WebGLUniformLocation | null = null;
 
+	name(): string {
+		return "Tron";
+	}
+
 	backgroundColor(): string {
 		return "#212146";
 	}

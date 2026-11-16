@@ -1,9 +1,12 @@
+<script lang="ts" module>
+	let autoScroll = true;
+</script>
+
 <script lang="ts">
 	import portrait from "#lib/assets/portrait.webp";
 	import { resolve } from "$app/paths";
 
 	let lastTime = 0;
-	let autoScroll = true;
 	let main: HTMLElement;
 
 	const handleScroll = () => {
@@ -34,12 +37,6 @@
 	<title>Credits | Electro_593</title>
 </svelte:head>
 
-<footer class="anchor">
-	<nav class="bubble">
-		<a href={resolve("/")}>Main Menu</a>
-	</nav>
-</footer>
-
 <main bind:this={main} class="anchor bubble" onwheel={handleScroll}>
 	<h1 class="heading">Credits</h1>
 
@@ -52,29 +49,43 @@
 			</li>
 			<li>
 				<span class="heading">Player Support<span>:</span></span>
-				<a href="mailto:electro5939@gmail.com">electro5939@gmail.com</a>
+				<a draggable="false" href="mailto:electro5939@gmail.com"
+					>electro5939@gmail.com</a
+				>
 			</li>
 			<li>
 				<span class="heading">Marketing & Outreach<span>:</span></span>
-				<a href="https://www.linkedin.com/in/aria-seiler/" target="_blank"
-					>linkedin.com/in/aria-seiler</a
+				<a
+					draggable="false"
+					href="https://www.linkedin.com/in/aria-seiler/"
+					target="_blank">linkedin.com/in/aria-seiler</a
 				>
 			</li>
 			<li>
 				<span class="heading">Engine & Infrastructure<span>:</span></span>
-				<a href="https://github.com/Electro593" target="_blank"
-					>github.com/Electro593</a
+				<a
+					draggable="false"
+					href="https://github.com/Electro593"
+					target="_blank">github.com/Electro593</a
 				>
 			</li>
 			<li>
 				<span class="heading">Publisher<span>:</span></span>
-				<a href="https://electro593.dev" target="_blank">electro593.dev</a>
+				<a draggable="false" href="https://electro593.dev" target="_blank"
+					>electro593.dev</a
+				>
 			</li>
 		</ul>
 	</address>
 
 	<figure>
-		<enhanced:img alt="Me" class="img" decoding="sync" src={portrait} />
+		<enhanced:img
+			alt="Me"
+			class="img"
+			decoding="sync"
+			draggable="false"
+			src={portrait}
+		/>
 	</figure>
 
 	<section class="introduction">
@@ -87,6 +98,12 @@
 		</p>
 	</section>
 </main>
+
+<footer class="anchor">
+	<nav class="bubble">
+		<a href={resolve("/")} title="Home">Main Menu</a>
+	</nav>
+</footer>
 
 <style>
 	@property --top-fade {
@@ -129,43 +146,35 @@
 		animation: scroll-vignette linear both;
 		animation-timeline: scroll(self y);
 
-		& > address {
-			flex: 2;
+		& > address > ul {
+			display: flex;
+			flex-flow: column wrap;
+			gap: 2em;
+			height: 100%;
+			list-style: none;
 
-			& > ul {
-				display: flex;
-				flex-flow: column wrap;
-				gap: 2em;
-				height: 100%;
-				list-style: none;
+			& > li {
+				display: block;
 
-				& > li {
+				& > *:first-child {
 					display: block;
+					margin-bottom: 0.25em;
 
-					& > *:first-child {
-						display: block;
-						margin-bottom: 0.25em;
-
-						& > span {
-							display: none;
-						}
+					& > span {
+						display: none;
 					}
+				}
 
-					& > *:last-child {
-						font-style: normal;
-					}
+				& > *:last-child {
+					font-style: normal;
 				}
 			}
 		}
 
-		& > figure {
-			flex: 1;
-
-			& > .img {
-				height: 100%;
-				border: 0.25em solid rgb(105 105 81);
-				border-radius: 0.5em;
-			}
+		& > figure > .img {
+			height: 16em;
+			border: 0.25em solid rgb(105 105 81);
+			border-radius: 0.5em;
 		}
 
 		& > .introduction {

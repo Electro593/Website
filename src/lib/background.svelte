@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { SvelteHTMLElements } from "svelte/elements";
-	import { getBackground } from "./backgrounds";
+	import { getBackground, getBackgroundIndex } from "./backgrounds";
 
 	type BackgroundProps = SvelteHTMLElements["div"] & { seed: number };
 
@@ -11,13 +11,18 @@
 		...restProps
 	}: BackgroundProps = $props();
 
-	const background = $derived(getBackground(seed));
+	let backgroundIndex = $derived(getBackgroundIndex(seed));
+	const background = $derived(getBackground(backgroundIndex));
 
-	let canvas: HTMLCanvasElement;
+	let canvas: HTMLCanvasElement | null = $state(null);
 	let lastTime = 0;
 
+	const nextBackground = () => {
+		backgroundIndex++;
+	};
+
 	$effect(() => {
-		if (window.getComputedStyle(canvas).display !== "block") return;
+		if (!canvas || window.getComputedStyle(canvas).display !== "block") return;
 		const dpr = window.devicePixelRatio || 1;
 
 		const ctx = background.init(canvas);
@@ -34,6 +39,8 @@
 		});
 
 		const draw = (timestamp: number) => {
+			if (!canvas) return;
+
 			let deltaTime = (timestamp - (lastTime || timestamp)) * 0.001;
 			if (deltaTime > 0.1) deltaTime = 0.1;
 			lastTime = timestamp;
@@ -66,7 +73,16 @@
 
 <div class={["frame", className]} {...restProps}>
 	<div class="viewport" style:--color-background={background.backgroundColor()}>
-		<canvas aria-hidden="true" bind:this={canvas} hidden></canvas>
+		<figure>
+			{#key background}
+				<canvas aria-hidden="true" bind:this={canvas} hidden></canvas>
+			{/key}
+			<figcaption>
+				Now showing: <button onclick={nextBackground}
+					>{background.name()}</button
+				>
+			</figcaption>
+		</figure>
 
 		<div class="gutter"></div>
 
@@ -97,13 +113,37 @@
 			container: viewport / size;
 			background-color: var(--color-background);
 
-			& > canvas {
+			& > figure {
 				position: absolute;
 				inset: 0;
 				z-index: 2;
 				display: block;
 				width: 100%;
 				height: 100%;
+
+				& > canvas {
+					position: absolute;
+					inset: 0;
+					z-index: 2;
+					display: block;
+					width: 100%;
+					height: 100%;
+				}
+
+				& > figcaption {
+					position: absolute;
+					bottom: 1em;
+					left: 1em;
+					z-index: 3;
+					color: #bbb;
+
+					& > button {
+						padding: 0.25em;
+						color: white;
+						border: 1px solid rgb(128 128 128 / 50%);
+						border-radius: 0.5em;
+					}
+				}
 			}
 
 			& > .gutter {
@@ -125,6 +165,7 @@
 				margin: auto;
 				container: scissor / inline-size;
 				overflow: hidden;
+				pointer-events: none;
 				background: transparent;
 
 				& > .content {
@@ -134,6 +175,7 @@
 					height: 100%;
 					container-type: inline-size;
 					font-size: 1cqi;
+					pointer-events: none;
 					isolation: isolate;
 				}
 			}

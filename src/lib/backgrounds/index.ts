@@ -4,6 +4,7 @@ import { Tron } from "./tron";
 export type BackgroundCtx = CanvasRenderingContext2D | WebGL2RenderingContext;
 
 export interface Background<T extends BackgroundCtx> {
+	name(): string;
 	backgroundColor(): string;
 
 	init(canvas: HTMLCanvasElement): T | null;
@@ -15,13 +16,19 @@ export interface Background<T extends BackgroundCtx> {
 	draw(ctx: T): void;
 }
 
-let BACKGROUND: Background<BackgroundCtx> | null = null;
+const BACKGROUNDS = [Fireflies, Tron];
 
-export function getBackground(seed: number) {
-	const get = () => new [Fireflies, Tron][Math.floor(seed * 2)]();
+const BACKGROUND_CACHE: Map<number, Background<BackgroundCtx>> = new Map();
+
+export function getBackgroundIndex(seed: number) {
+	return Math.floor(Math.abs(seed) * 2) % BACKGROUNDS.length;
+}
+
+export function getBackground(index: number) {
+	const get = () => new BACKGROUNDS[index % BACKGROUNDS.length]();
 
 	if (typeof window === "undefined") return get();
 
-	if (!BACKGROUND) BACKGROUND = get();
-	return BACKGROUND;
+	if (!BACKGROUND_CACHE.has(index)) BACKGROUND_CACHE.set(index, get());
+	return BACKGROUND_CACHE.get(index)!;
 }
